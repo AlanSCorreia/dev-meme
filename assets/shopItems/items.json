@@ -51,18 +51,18 @@
         "name": "Apartamento",
         "type": "background",
         "cost": 10000,
-        "imagePath": "assets/imgs/monkey_idle_flamengo.png"
+        "imagePath": "assets/imgs/fundo_de_apartamento.png"
     },
     {
         "name": "Condominio de Rico",
         "type": "background",
         "cost": 100000,
-        "imagePath": "assets/imgs/monkey_idle_flamengo.png"
+        "imagePath": "assets/imgs/fundo_de_rico.png"
     },
     {
         "name": "Condominio de Rico",
         "type": "background",
-        "cost": 1000,
-        "imagePath": "assets/imgs/monkey_idle_flamengo.png"
+        "cost": 1000000,
+        "imagePath": "assets/imgs/fundo_da_casa_branca.png"
     }
 ]

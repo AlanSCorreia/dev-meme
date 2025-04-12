@@ -1,7 +1,8 @@
+const game = document.getElementById('game');
 let shotInterval;
 let currentPointsValue = 5;
 
-document.addEventListener('click', () => {
+game.addEventListener('click', (event) => {
     if (!GAME_STATE.started) return;
 
     addPoints(currentPointsValue);

@@ -85,38 +85,6 @@ window.onload = () => {
         // Você pode adicionar mais itens aqui facilmente
     ];
 
-    // Função para construir a loja de itens
-    function buildShop() {
-        shopContainer.innerHTML = ''; // Limpa o conteúdo atual
-
-        shopItems.forEach((item, index) => {
-            const itemDiv = document.createElement('div');
-            itemDiv.style.marginBottom = '10px';
-
-            const button = document.createElement('button');
-            button.id = `item-${index}`; // Usa o índice para criar o ID
-            button.className = 'shop-item';
-
-            const img = document.createElement('img');
-            img.src = item.image;
-            img.alt = item.name;
-            img.style.width = '24px';
-            img.style.height = '24px';
-            img.style.verticalAlign = 'middle';
-
-            button.appendChild(img);
-            button.appendChild(document.createTextNode(` ${item.name} - ${item.cost} 🍌`));
-
-            // Adiciona evento de clique ao botão, passa o índice em vez do ID
-            button.addEventListener('click', () => {
-                purchaseItem(index, item.cost, item.onPurchase);
-            });
-
-            itemDiv.appendChild(button);
-            shopContainer.appendChild(itemDiv);
-        });
-    }
-
     // Atualiza a exibição de bananas
     function updateScoreDisplay() {
         scoreDisplay.innerText = `Banana: ${score}`;
@@ -262,12 +230,8 @@ window.onload = () => {
         // Remove o item comprado da loja visualmente e da lista
         if (itemIndex >= 0 && itemIndex < shopItems.length) {
             shopItems.splice(itemIndex, 1);
-            buildShop(); // Reconstrói a loja sem o item comprado
         }
     }
-
-    // Inicializa a loja
-    buildShop();
 
     // Função para tocar tiros aleatoriamente
     let shotInterval;

@@ -3,8 +3,19 @@ const cpsDisplay = document.getElementById('cps-counter');
 const startScreen = document.getElementById('start-screen');
 const scoreDisplay = document.getElementById('score');
 const shopContainer = document.getElementById('shop-items');
+const backButton = document.getElementById('back');
 
 let lastPointPosition = { x: 0, y: 0 };
+
+// Back button
+backButton.addEventListener('click', () => {
+    const shop = document.querySelector('#shop');
+    const categoriesContainer = shop.querySelector('.categories');
+    const shopItems = document.querySelector('#shop-items');
+
+    showElement(categoriesContainer);
+    hideElement(shopItems);
+});
 
 // Start screen
 screen.addEventListener('click', function(){ 
@@ -16,6 +27,7 @@ screen.addEventListener('click', function(){
     startScreen.classList = 'fade-out';
 
     playAudio(GAME_STATE.music.src);
+    buildShop();
 
     console.debug('Game started!');
 });
@@ -95,36 +107,70 @@ function updateScoreDisplay() {
 
 // Função para construir a loja de itens
 function buildShop() {
-    shopContainer.innerHTML = ''; // Limpa o conteúdo atual
+    const shop = document.querySelector('#shop');
+    const shopItems = document.querySelector('#shop-items');
+    const categoriesContainer = shop.querySelector('.categories');
+    
+    const response = fetch("./assets/shopItems/items.json")
+    .then(response => response.json())
+    .catch(error => {
+        console.error('Erro ao carregar os itens da loja:', error);
+    });
 
-    shopItems.forEach((item, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.style.marginBottom = '10px';
+    response.then(items => {
+        const categories = [...new Set(items.map(item => item.type))];
+        console.debug('Categorias:', categories);
+        categories.map(category => {
+            const button = document.createElement('button');
+            button.innerText = category;
+            button.addEventListener('click', () => {
+                showElement(shopItems);
+                hideElement(categoriesContainer);
+                setCategory(category);
+            });
 
-        const button = document.createElement('button');
-        button.id = `item-${index}`; // Usa o índice para criar o ID
-        button.className = 'shop-item';
-
-        const img = document.createElement('img');
-        img.src = item.image;
-        img.alt = item.name;
-        img.style.width = '24px';
-        img.style.height = '24px';
-        img.style.verticalAlign = 'middle';
-
-        button.appendChild(img);
-        button.appendChild(document.createTextNode(` ${item.name} - ${item.cost} 🍌`));
-
-        // Adiciona evento de clique ao botão, passa o índice em vez do ID
-        button.addEventListener('click', () => {
-            purchaseItem(index, item.cost, item.onPurchase);
+            categoriesContainer.appendChild(button);
         });
-
-        itemDiv.appendChild(button);
-        shopContainer.appendChild(itemDiv);
     });
 }
 
+function hideElement(element) {
+    element.classList.add('hidden');
+}
+
+function showElement(element) {
+    element.classList.remove('hidden');
+}
+
+function setCategory(category) {
+    const shopItems = document.querySelector('#shop-items');
+    shopItems.innerHTML = '';
+
+    const response = fetch("./assets/shopItems/items.json")
+    .then(response => response.json())
+    .catch(error => {
+        console.error('Erro ao carregar os itens da loja:', error);
+    });
+
+    response.then(items => {
+        const filteredItems = items.filter(item => item.type === category);
+        console.debug('Itens filtrados:', filteredItems);
+
+        filteredItems.forEach(item => {
+            const button = document.createElement('button');
+            const img = document.createElement('img');
+
+            img.src = item.imagePath;
+            button.appendChild(img);
+            button.classList = 'item-button';
+            button.innerHTML = button.innerHTML + `${item.cost} 🍌`;
+            
+            shopItems.appendChild(button);
+        });
+    });
+}
+
+// Função para atualizar pontos do jogo
 function showPoints(currentPointsValue) {
     const game = document.getElementById('game');
     const plusPoint = document.createElement('div');

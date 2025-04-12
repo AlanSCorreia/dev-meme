@@ -1,0 +1,68 @@
+[
+    {
+        "name": "Camisa do Flamengo",
+        "type": "cosmetic",
+        "cost": 10,
+        "imagePath": "assets/imgs/monkey_idle_flamengo.png"
+    },
+    {
+        "name": "Camisa do Sao Paulo",
+        "type": "cosmetic",
+        "cost": 10,
+        "imagePath": "assets/imgs/monkey_idle_saopaulo.png"
+    },
+    {
+        "name": "Camisa do Corinthians",
+        "type": "cosmetic",
+        "cost": 10,
+        "imagePath": "assets/imgs/monkey_idle_corinthians.png"
+    },
+    {
+        "name": "Camisa do Santos",
+        "type": "cosmetic",
+        "cost": 10,
+        "imagePath": "assets/imgs/monkey_idle_santos.png"
+    },
+    {
+        "name": "Camisa do Palmeiras",
+        "type": "cosmetic",
+        "cost": 10,
+        "imagePath": "assets/imgs/monkey_idle_palmeiras.png"
+    },
+    {
+        "name": "Camisa do Vasco",
+        "type": "cosmetic",
+        "cost": 10,
+        "imagePath": "assets/imgs/monkey_idle_vasco.png"
+    },
+    {
+        "name": "Camisa do Brasil",
+        "type": "cosmetic",
+        "cost": 1500,
+        "imagePath": "assets/imgs/monkey_idle_brasil.png"
+    },
+    {
+        "name": "Fundo de Favela",
+        "type": "background",
+        "cost": 1000,
+        "imagePath": "assets/imgs/fundo_de_favela.png"
+    },
+    {
+        "name": "Apartamento",
+        "type": "background",
+        "cost": 10000,
+        "imagePath": "assets/imgs/monkey_idle_flamengo.png"
+    },
+    {
+        "name": "Condominio de Rico",
+        "type": "background",
+        "cost": 100000,
+        "imagePath": "assets/imgs/monkey_idle_flamengo.png"
+    },
+    {
+        "name": "Condominio de Rico",
+        "type": "background",
+        "cost": 1000,
+        "imagePath": "assets/imgs/monkey_idle_flamengo.png"
+    }
+]

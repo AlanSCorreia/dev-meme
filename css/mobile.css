@@ -1,0 +1,24 @@
+@media screen and (max-width: 600px) {
+    #volume-control {
+        display: none;
+    }
+
+    #cps-counter {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        left: inherit;
+        bottom: inherit;
+    }
+
+    #monkey {
+        width: 85%;
+    }
+
+    #shop {
+        box-sizing: border-box;
+        width: calc(100% - 20px);
+        margin: 0 10px;
+        left: 0px;
+    }
+}

@@ -166,6 +166,15 @@ function setCategory(category) {
             button.innerHTML = button.innerHTML + `${item.cost} 🍌`;
             
             shopItems.appendChild(button);
+
+            button.addEventListener('click', (event) => {
+                const element = event.target.querySelector('img')
+                if (canIBuyIt(item.cost)) {
+                    GAME_STATE.points -= item.cost;
+                    changePlayerSkin(element.src);
+                    console.log(element)
+                }
+            })
         });
     });
 }

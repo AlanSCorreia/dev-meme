@@ -13,4 +13,5 @@ const GAME_STATE = {
         src: new Audio('assets/sounds/calm-music.mp3'),
         volume: 0.2,
     },
+    items: []
 };

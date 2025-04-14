@@ -1,6 +1,8 @@
 const game = document.getElementById('game');
+const itemButton = document.querySelector('.item-button')
+
 let shotInterval;
-let currentPointsValue = 5;
+let currentPointsValue = 1;
 
 game.addEventListener('click', (event) => {
     if (!GAME_STATE.started) return;
@@ -11,13 +13,8 @@ game.addEventListener('click', (event) => {
     showPoints(currentPointsValue);
 
     setTimeout(() => {
-        const currentSkin = monkey.getAttribute('data-current-skin') || 'default';
-
-        if (currentSkin != 'default') {
-            monkey.src = `assets/imgs/monkey_idle_${currentSkin}.png`;
-        } else {
-            monkey.src = 'assets/imgs/monkey_idle.png'; // Retorna ao skin padrão
-        }
+        const currentSkin = monkey.getAttribute('data-current-skin');
+        monkey.src = currentSkin
 
     }, 200);
 });
@@ -30,8 +27,13 @@ function setPointsValue(value) {
     return value
 }
 
+function canIBuyIt(cost) {
+    return GAME_STATE.points >= cost;
+}
+
 function changePlayerSkin(path) {
     monkey.setAttribute('data-current-skin', path);
+    monkey.src = path;
 }
 
 function changeScene(path) {

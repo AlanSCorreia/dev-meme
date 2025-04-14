@@ -357,6 +357,73 @@ body {
     box-shadow: 0 0 0 4px rgba(0, 120, 212, 0.3);
 }
 
+.custom-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adds spacing between the text and the slider */
+    width: 100%; /* Ensures the container spans the full width */
+}
+
+.custom-slider-container label {
+    flex-shrink: 0; /* Prevents the label from shrinking */
+    font-size: 14px; /* Adjusts the label font size */
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+.custom-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    flex-grow: 1; /* Ensures the slider takes up the remaining space */
+    height: 8px;
+    background: linear-gradient(135deg, #82cfc2, #0078d4);
+    border-radius: 12px;
+    outline: none;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border: 2px solid #0078d4;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.custom-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-slider::-webkit-slider-thumb:active {
+    transform: scale(0.9);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.custom-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: white;
+    border: 2px solid #0078d4;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.custom-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-slider::-moz-range-thumb:active {
+    transform: scale(0.9);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 /* Custom Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 10px;

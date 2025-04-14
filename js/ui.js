@@ -18,7 +18,7 @@ backButton.addEventListener('click', () => {
 });
 
 // Start screen
-screen.addEventListener('click', function(){ 
+screen.addEventListener('click', async function () {
     if (GAME_STATE.started) {
         return;
     }
@@ -27,6 +27,7 @@ screen.addEventListener('click', function(){
     startScreen.classList = 'fade-out';
 
     playAudio(GAME_STATE.music.src);
+    await loadItems();
     buildShop();
 
     console.debug('Game started!');
@@ -57,8 +58,8 @@ for (const volumeControl of Object.keys(volumeControls)) {
     const control = volumeControls[volumeControl];
     control.addEventListener('input', updateVolume);
     control.setAttribute("value", GAME_STATE[volumeControl].volume)
-    
-    if(GAME_STATE[volumeControl].src) {
+
+    if (GAME_STATE[volumeControl].src) {
         GAME_STATE[volumeControl].src.volume = GAME_STATE[volumeControl].volume;
         GAME_STATE[volumeControl].volume = GAME_STATE[volumeControl].volume;
     } else {
@@ -73,7 +74,7 @@ muteButton.addEventListener('click', () => {
     GAME_STATE.isMuted = !GAME_STATE.isMuted;
     muteButton.innerText = GAME_STATE.isMuted ? '🔊 Ativar som' : '🔇 Mutar';
 
-    if(GAME_STATE.isMuted) {
+    if (GAME_STATE.isMuted) {
         console.debug('Muting all sounds...');
         GAME_STATE.music.src.pause();
         GAME_STATE.sfx.src.volume = 0;
@@ -90,7 +91,7 @@ function updateVolume(event) {
 
     console.debug(`Setting ${sound} volume to ${desired_volume}`);
 
-    if(GAME_STATE[sound].src) {
+    if (GAME_STATE[sound].src) {
         GAME_STATE[sound].src.volume = desired_volume;
         GAME_STATE[sound].volume = desired_volume;
     } else {
@@ -106,76 +107,70 @@ function updateScoreDisplay() {
 }
 
 // Função para construir a loja de itens
+async function loadItems() {
+    try {
+        const response = await fetch("./assets/shopItems/items.json");
+        const items = await response.json();
+        GAME_STATE.items = items;
+        console.debug('Itens da loja:', items);
+    } catch (error) {
+        console.error('Erro ao carregar os itens da loja:', error);
+    }
+}
+
 function buildShop() {
+    const items = GAME_STATE.items;
     const shop = document.querySelector('#shop');
     const shopItems = document.querySelector('#shop-items');
     const categoriesContainer = shop.querySelector('.categories');
-    
-    const response = fetch("./assets/shopItems/items.json")
-    .then(response => response.json())
-    .catch(error => {
-        console.error('Erro ao carregar os itens da loja:', error);
-    });
 
-    response.then(items => {
-        const categories = [...new Set(items.map(item => item.type))];
-        console.debug('Categorias:', categories);
-        categories.map(category => {
-            const button = document.createElement('button');
-            button.innerText = category;
-            button.addEventListener('click', () => {
-                showElement(shopItems);
-                hideElement(categoriesContainer);
-                setCategory(category);
-            });
+    const categories = [...new Set(items.map(item => item.type))];
+    console.debug('Categorias:', categories);
 
-            categoriesContainer.appendChild(button);
+    categories.map(category => {
+        const button = document.createElement('button');
+        button.innerText = category;
+        button.addEventListener('click', () => {
+            showElement(shopItems);
+            hideElement(categoriesContainer);
+            setCategory(category);
         });
+
+        categoriesContainer.appendChild(button);
     });
-}
-
-function hideElement(element) {
-    element.classList.add('hidden');
-}
-
-function showElement(element) {
-    element.classList.remove('hidden');
 }
 
 function setCategory(category) {
+    const items = GAME_STATE.items;
     const shopItems = document.querySelector('#shop-items');
     shopItems.innerHTML = '';
 
-    const response = fetch("./assets/shopItems/items.json")
-    .then(response => response.json())
-    .catch(error => {
-        console.error('Erro ao carregar os itens da loja:', error);
-    });
+    const filteredItems = items.filter(item => item.type === category);
+    console.debug('Itens filtrados:', filteredItems);
 
-    response.then(items => {
-        const filteredItems = items.filter(item => item.type === category);
-        console.debug('Itens filtrados:', filteredItems);
+    filteredItems.forEach(item => {
+        const button = document.createElement('button');
+        const img = document.createElement('img');
 
-        filteredItems.forEach(item => {
-            const button = document.createElement('button');
-            const img = document.createElement('img');
+        img.src = item.imagePath;
+        button.appendChild(img);
+        button.classList = 'item-button';
+        const cost = item.cost == 0 ? 'Já possui' : `${item.cost} 🍌`;
+        button.innerHTML = button.innerHTML + cost;
 
-            img.src = item.imagePath;
-            button.appendChild(img);
-            button.classList = 'item-button';
-            button.innerHTML = button.innerHTML + `${item.cost} 🍌`;
-            
-            shopItems.appendChild(button);
+        shopItems.appendChild(button);
 
-            button.addEventListener('click', (event) => {
-                const element = event.target.querySelector('img')
-                if (canIBuyIt(item.cost)) {
-                    GAME_STATE.points -= item.cost;
-                    changePlayerSkin(element.src);
-                    console.log(element)
-                }
-            })
-        });
+        button.addEventListener('click', (event) => {
+            const element = event.target.querySelector('img')
+            if (canIBuyIt(item.cost)) {
+                GAME_STATE.points -= item.cost;
+                changePlayerSkin(element.src);
+                const path = img.src.split('/').splice(3).join('/')
+                const index = GAME_STATE.items.findIndex(item => item.imagePath === path);
+                button.innerHTML = button.innerHTML.replace(`${item.cost} 🍌`, 'Já possui');
+                GAME_STATE.items[index].cost = 0;
+            }
+        })
     });
 }
 
@@ -215,4 +210,12 @@ function showPoints(currentPointsValue) {
     setTimeout(() => {
         plusPoint.remove();
     }, 800);
+}
+
+function hideElement(element) {
+    element.classList.add('hidden');
+}
+
+function showElement(element) {
+    element.classList.remove('hidden');
 }

@@ -11,7 +11,6 @@ game.addEventListener('click', (event) => {
     monkey.src = 'assets/imgs/monkey_clap.png';
     playAudio(GAME_STATE.sfx.src);
     showPoints(currentPointsValue);
-    // changeScene("assets/imgs/fundo_de_floresta.png");
 
     setTimeout(() => {
         const currentSkin = monkey.getAttribute('data-current-skin');

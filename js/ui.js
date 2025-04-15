@@ -7,6 +7,14 @@ const backButton = document.getElementById('back');
 
 let lastPointPosition = { x: 0, y: 0 };
 
+// On window load
+
+window.addEventListener('load', () => {
+    console.debug('Window loaded!');
+    recoverState();
+    updateScoreDisplay();
+});
+
 // Back button
 backButton.addEventListener('click', () => {
     const shop = document.querySelector('#shop');
@@ -20,10 +28,11 @@ backButton.addEventListener('click', () => {
 // Start screen
 screen.addEventListener('click', async function () {
     if (GAME_STATE.started) {
+        console.debug('Game already started!');
         return;
     }
 
-    GAME_STATE.started = !GAME_STATE.started;
+    GAME_STATE.started = !GAME_STATE.started; // GAME_STATE.started = true
     startScreen.classList = 'fade-out';
     
     changeScene("assets/imgs/fundo_de_floresta.png")
@@ -110,6 +119,13 @@ function updateScoreDisplay() {
 // Função para construir a loja de itens
 async function loadItems() {
     try {
+        const has_state = getState();
+        if (has_state) {
+            console.debug('State found, loading items from state...');
+            GAME_STATE.items = JSON.parse(localStorage.getItem('gameState')).items;
+            return;
+        }
+        
         const response = await fetch("./assets/shopItems/items.json");
         const items = await response.json();
         GAME_STATE.items = items;

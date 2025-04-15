@@ -9,12 +9,13 @@ game.addEventListener('click', (event) => {
 
     addPoints(currentPointsValue);
     monkey.src = 'assets/imgs/monkey_clap.png';
-    playAudio(GAME_STATE.sfx.src)
+    playAudio(GAME_STATE.sfx.src);
     showPoints(currentPointsValue);
+    // changeScene("assets/imgs/fundo_de_floresta.png");
 
     setTimeout(() => {
         const currentSkin = monkey.getAttribute('data-current-skin');
-        monkey.src = currentSkin
+        monkey.src = currentSkin;
 
     }, 200);
 });
@@ -36,9 +37,10 @@ function changePlayerSkin(path) {
     monkey.src = path;
 }
 
-function changeScene(path) {
+function changeScene(path, points) {
+    currentPointsValue = points ? points : 1;
     const gameElement = document.getElementById('game');
-    gameElement.style.backgroundImage = path;
+    gameElement.style.backgroundImage = `url(${path})`;
     gameElement.style.backgroundSize = 'cover';
     gameElement.style.backgroundPosition = 'center';
 }

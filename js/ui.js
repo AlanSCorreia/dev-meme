@@ -25,7 +25,8 @@ screen.addEventListener('click', async function () {
 
     GAME_STATE.started = !GAME_STATE.started;
     startScreen.classList = 'fade-out';
-
+    
+    changeScene("assets/imgs/fundo_de_floresta.png")
     playAudio(GAME_STATE.music.src);
     await loadItems();
     buildShop();
@@ -164,7 +165,12 @@ function setCategory(category) {
             const element = event.target.querySelector('img')
             if (canIBuyIt(item.cost)) {
                 GAME_STATE.points -= item.cost;
-                changePlayerSkin(element.src);
+                if (item.type === "cosmetic") {
+                    changePlayerSkin(element.src);
+                }
+                else {
+                    changeScene(element.src, item.points)
+                }
                 const path = img.src.split('/').splice(3).join('/')
                 const index = GAME_STATE.items.findIndex(item => item.imagePath === path);
                 button.innerHTML = button.innerHTML.replace(`${item.cost} 🍌`, 'Já possui');

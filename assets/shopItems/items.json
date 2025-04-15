@@ -38,31 +38,35 @@
     {
         "name": "Camisa do Brasil",
         "type": "cosmetic",
-        "cost": 1500,
+        "cost": 15,
         "imagePath": "assets/imgs/monkey_idle_brasil.png"
     },
     {
         "name": "Fundo de Favela",
         "type": "background",
-        "cost": 1000,
+        "cost": 10,
+        "points": 5,
         "imagePath": "assets/imgs/fundo_de_favela.png"
     },
     {
         "name": "Apartamento",
         "type": "background",
-        "cost": 10000,
+        "cost": 10,
+        "points": 10,
         "imagePath": "assets/imgs/fundo_de_apartamento.png"
     },
     {
         "name": "Condominio de Rico",
         "type": "background",
-        "cost": 100000,
+        "cost": 10,
+        "points": 15,
         "imagePath": "assets/imgs/fundo_de_rico.png"
     },
     {
         "name": "Condominio de Rico",
         "type": "background",
-        "cost": 1000000,
+        "cost": 10,
+        "points": 20,
         "imagePath": "assets/imgs/fundo_da_casa_branca.png"
     }
 ]

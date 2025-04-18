@@ -27,20 +27,7 @@ backButton.addEventListener('click', () => {
 
 // Start screen
 screen.addEventListener('click', async function () {
-    if (GAME_STATE.started) {
-        console.debug('Game already started!');
-        return;
-    }
-
-    GAME_STATE.started = !GAME_STATE.started; // GAME_STATE.started = true
-    startScreen.classList = 'fade-out';
-    
-    changeScene("assets/imgs/fundo_de_floresta.png")
-    playAudio(GAME_STATE.music.src);
-    await loadItems();
-    buildShop();
-
-    console.debug('Game started!');
+    eventEmitter.emit('game:started');
 });
 
 // CPS
@@ -242,4 +229,13 @@ function showElement(element) {
     element.classList.remove('hidden');
 }
 
-// ola
+function createMission(id, description, initialValue, objectiveValue) {
+    const missionHtml = `<div class="mission" id="${id}">
+                <div class="mission-text">${description}</div>
+                <progress class="mission-progress" value="${initialValue}" max="${objectiveValue}"></progress>
+                <div class="mission-progress-text">${initialValue}/${objectiveValue}</div>
+            </div>`;
+
+    const missionContainer = document.querySelector('.missions');
+    missionContainer.innerHTML += missionHtml;
+}

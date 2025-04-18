@@ -4,6 +4,24 @@ const itemButton = document.querySelector('.item-button')
 let shotInterval;
 let currentPointsValue = 1;
 
+eventEmitter.addListener('game:started', async () => {
+    if (GAME_STATE.started) {
+        console.debug('Game already started!');
+        return;
+    }
+
+    GAME_STATE.started = !GAME_STATE.started; // GAME_STATE.started = true
+    startScreen.classList = 'fade-out';
+    
+    changeScene("assets/imgs/fundo_de_floresta.png")
+    playAudio(GAME_STATE.music.src);
+    await loadItems();
+    buildShop();
+    createMission('mission1', 'Clique 100 vezes', 0, 100);
+
+    console.debug('Game started!');
+})
+
 game.addEventListener('click', (event) => {
     if (!GAME_STATE.started) return;
 
